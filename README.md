@@ -46,9 +46,9 @@ const RBCs = {
 ## 📈 GitHub Stats
 
 <div align="center">
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&icon_color=e63946" alt="GitHub Stats" />
+  <img src="https://github-readme-stats.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&icon_color=e63946" alt="GitHub Stats" />
   <br/><br/>
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9" alt="Top Languages" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9" alt="Top Languages" />
 </div>
 
 ---
@@ -59,7 +59,7 @@ const RBCs = {
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake.svg">
-    <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake.svg">
+    <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg">
   </picture>
 </div>
 
