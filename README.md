@@ -1,5 +1,9 @@
 <div align="center">
 
+  <img src="red-blood-cell.svg" width="400" alt="Red Blood Cell ASCII Art" />
+
+  <br/><br/>
+
   # 👋 Hi, I'm **RBCs** (`RBCs-lang`)
   
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=E63946&center=true&vcenter=true&width=550&lines=Fullstack+%26+Micro-API+Developer;Architecting+Modern+Web+Applications;Always+Learning+%26+Building+Open+Source" alt="Typing SVG" />
