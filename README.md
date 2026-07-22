@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="red-blood-cell.png" width="400" alt="Red Blood Cell ASCII Art" />
+  <img src="red-blood-cell-transparent.png" width="400" alt="Red Blood Cell ASCII Art" />
 
   <br/><br/>
 
