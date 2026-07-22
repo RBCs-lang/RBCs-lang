@@ -53,14 +53,6 @@ const RBCs = {
 
 ---
 
-## 🐍 Contribution Graph Snake
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg" alt="GitHub Contribution Snake" />
-</div>
-
----
-
 <div align="center">
   <sub>Designed & built with ❤️ by <a href="https://github.com/RBCs-lang">RBCs</a></sub>
 </div>
