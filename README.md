@@ -50,9 +50,9 @@ const RBCs = {
 ## 📈 GitHub Stats
 
 <div align="center">
-  <img src="https://github-readme-stats-fast.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&icon_color=e63946&include_all_commits=true&count_private=true" alt="GitHub Stats" />
+  <img src="https://github-readme-stats-fast.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&icon_color=e63946&include_all_commits=true&count_private=true&cache_seconds=1800" alt="GitHub Stats" />
   <br/><br/>
-  <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9" alt="Top Languages" />
+  <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&cache_seconds=1800" alt="Top Languages" />
 </div>
 
 ---
