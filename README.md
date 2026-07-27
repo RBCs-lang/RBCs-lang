@@ -11,7 +11,6 @@
   <br/>
 
   [![GitHub Followers](https://img.shields.io/github/followers/RBCs-lang?style=for-the-badge&color=21262d&labelColor=0d1117&logo=github)](https://github.com/RBCs-lang)
-  [![Profile Views](https://komarev.com/ghpvc/?username=RBCs-lang&color=e63946&style=for-the-badge&label=PROFILE+VIEWS)](https://github.com/RBCs-lang)
 
 </div>
 
