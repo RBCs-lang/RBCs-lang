@@ -29,10 +29,10 @@
 
   <br/><br/>
 
-  <!-- Phase 2: Stats & Top Languages Side-by-Side -->
-  <a href="https://github.com/anuraghazra/github-readme-stats">
-    <img src="https://github-readme-stats.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true" alt="GitHub Stats" width="49%" align="left" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="49%" align="right" />
+  <!-- Phase 2: Stats & Top Languages Side-by-Side (Vercel Self-Hosted Deployment) -->
+  <a href="https://github.com/stats-organization/github-stats-extended">
+    <img src="https://github-stats-extended-ochre.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true" alt="GitHub Stats" width="49%" align="left" />
+    <img src="https://github-stats-extended-ochre.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="49%" align="right" />
   </a>
 
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
