@@ -24,25 +24,18 @@
 
   <br/><br/>
 
-  <!-- Phase 2: GitHub Streak Card (Self-Hosted / Theme Aligned) -->
+  <!-- Phase 2: GitHub Streak Card -->
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=RBCs-lang&theme=dark&background=0A101F&stroke=22D3EE&alarm=EF4444&fire=10B981&ring=22D3EE&currStreakLabel=22D3EE" alt="GitHub Streak Stats" width="100%" />
 
   <br/><br/>
 
   <!-- Phase 2: Stats & Top Languages Side-by-Side -->
-  <table border="0" width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="49%" valign="top">
-        <img src="https://github-readme-stats.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true" alt="GitHub Stats" width="100%" />
-      </td>
-      <td width="2%"></td>
-      <td width="49%" valign="top">
-        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="100%" />
-      </td>
-    </tr>
-  </table>
+  <a href="https://github.com/anuraghazra/github-readme-stats">
+    <img src="https://github-readme-stats.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true" alt="GitHub Stats" width="49%" align="left" />
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="49%" align="right" />
+  </a>
 
-  <br/><br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
   <!-- Phase 3: Contribution Snake -->
   <picture>
