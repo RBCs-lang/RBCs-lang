@@ -1,8 +1,7 @@
 <div align="center">
 
   <!-- Phase 1: Responsive Profile Banner -->
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.svg#gh-dark-mode-only" alt="Subh Sharma Profile Banner" width="100%" />
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/light.svg#gh-light-mode-only" alt="Subh Sharma Profile Banner" width="100%" />
+  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.svg" alt="Subh Sharma Profile Banner" width="100%" />
 
   <br/><br/>
 
@@ -36,7 +35,6 @@
   <br/><br/>
 
   <!-- Phase 3: Contribution Snake -->
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg#gh-dark-mode-only" alt="Contribution Snake" width="100%" />
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake.svg#gh-light-mode-only" alt="Contribution Snake" width="100%" />
+  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg" alt="Contribution Snake" width="100%" />
 
 </div>
