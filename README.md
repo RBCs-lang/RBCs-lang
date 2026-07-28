@@ -1,61 +1,54 @@
 <div align="center">
 
-  <img src="red-blood-cell-transparent.png" width="400" alt="Red Blood Cell ASCII Art" />
+  <!-- Phase 1: Responsive Banner (Theme-Aware Light & Dark) -->
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/light.svg" />
+    <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.svg" alt="Subh Sharma Profile Banner" width="100%" />
+  </picture>
 
   <br/><br/>
 
-  #  Hi, I'm **RBCs** (`RBCs-lang`)
-  
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=E63946&center=true&vcenter=true&width=550&lines=Fullstack+%26+Micro-API+Developer;Architecting+Modern+Web+Applications;Always+Learning+%26+Building+Open+Source" alt="Typing SVG" />
+  <!-- Phase 4: Social Badges -->
+  <a href="https://github.com/RBCs-lang">
+    <img src="https://img.shields.io/badge/GitHub-RBCs--lang-0A101F?style=for-the-badge&logo=github&logoColor=22D3EE" alt="GitHub" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://linkedin.com/in/RBCs">
+    <img src="https://img.shields.io/badge/LinkedIn-Subh%20Sharma-0A101F?style=for-the-badge&logo=linkedin&logoColor=0A66C2" alt="LinkedIn" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="mailto:subhsharma@example.com">
+    <img src="https://img.shields.io/badge/Email-Contact%20Me-0A101F?style=for-the-badge&logo=gmail&logoColor=EF4444" alt="Email" />
+  </a>
 
-  <br/>
-
-  [![GitHub Followers](https://img.shields.io/github/followers/RBCs-lang?style=for-the-badge&color=21262d&labelColor=0d1117&logo=github)](https://github.com/RBCs-lang)
-
-</div>
-
-<br/>
-
-##  About Me
-
-```javascript
-const RBCs = {
-    code: ["Python", "JavaScript", "CSS3", "HTML5"],
-    technologies: {
-        frontend: ["CSS Vanilla", "Modern Web APIs", "Interactive UIs"],
-        backend: ["Micro APIs", "Node.js", "Python"],
-        tools: ["Git", "GitHub Actions", "Docker"]
-    },
-    currentFocus: "Building high-performance Micro APIs & interactive web experiences",
-    funFact: "I turn coffee into scalable code and clean design ☕"
-};
-```
-
----
-
-##  Tech Stack & Skills
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
-</div>
-
----
-
-##  GitHub Stats
-
-<div align="center">
-  <img src="https://github-readme-stats-fast.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&icon_color=e63946&include_all_commits=true&count_private=true&cache_seconds=1800" alt="GitHub Stats" />
   <br/><br/>
-  <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=e63946&text_color=c9d1d9&cache_seconds=1800" alt="Top Languages" />
-</div>
 
----
+  <!-- Phase 2: GitHub Streak Card (Self-Hosted / Theme Aligned) -->
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=RBCs-lang&theme=dark&background=0A101F&stroke=22D3EE&alarm=EF4444&fire=10B981&ring=22D3EE&currStreakLabel=22D3EE" alt="GitHub Streak Stats" width="100%" />
 
-<div align="center">
-  <sub>Designed & built with ❤️ by <a href="https://github.com/RBCs-lang">RBCs</a></sub>
+  <br/><br/>
+
+  <!-- Phase 2: Stats & Top Languages Side-by-Side -->
+  <table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="49%" valign="top">
+        <img src="https://github-readme-stats.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true" alt="GitHub Stats" width="100%" />
+      </td>
+      <td width="2%"></td>
+      <td width="49%" valign="top">
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="100%" />
+      </td>
+    </tr>
+  </table>
+
+  <br/><br/>
+
+  <!-- Phase 3: Contribution Snake -->
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake.svg" />
+    <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/output/github-contribution-grid-snake-dark.svg" alt="Contribution Snake" width="100%" />
+  </picture>
+
 </div>
