@@ -129,17 +129,18 @@ def build_morphing_banner(mode='dark'):
     text_muted = "#94A3B8" if mode == 'dark' else "#64748B"
     text_main = "#F8FAFC" if mode == 'dark' else "#0F172A"
     
-    # Total duration: 24 Seconds
-    # 0s - 4s (Hold Face Portrait P0 for 4.0s)
-    # 4s - 6s (Smooth particle transition P0 -> Python P1 over 2.0s)
-    # 6s - 10s (Hold Python P1 for 4.0s)
-    # 10s - 12s (Smooth particle transition Python P1 -> JS P2 over 2.0s)
-    # 12s - 16s (Hold JS P2 for 4.0s)
-    # 16s - 18s (Smooth particle transition JS P2 -> Git P3 over 2.0s)
-    # 18s - 22s (Hold Git P3 for 4.0s)
-    # 22s - 24s (Smooth particle transition Git P3 -> Return to Face P0 over 2.0s)
+    # Total duration: 16 Seconds
+    # 0s - 2.5s (Hold Face Portrait P0 for 2.5s)
+    # 2.5s - 4.0s (Morph P0 -> Python P1 over 1.5s)
+    # 4.0s - 6.5s (Hold Python P1 for 2.5s)
+    # 6.5s - 8.0s (Morph Python P1 -> JS P2 over 1.5s)
+    # 8.0s - 10.5s (Hold JS P2 for 2.5s)
+    # 10.5s - 12.0s (Morph JS P2 -> Git P3 over 1.5s)
+    # 12.0s - 14.5s (Hold Git P3 for 2.5s)
+    # 14.5s - 16.0s (Morph Git P3 -> Return to Face P0 over 1.5s)
     
-    key_times = "0; 0.1667; 0.25; 0.4167; 0.50; 0.6667; 0.75; 0.9167; 1"
+    # Standard 10-point loop with exact 4-decimal fractions summing to 1.0000
+    key_times = "0; 0.1563; 0.25; 0.4063; 0.50; 0.6563; 0.75; 0.9063; 1"
     
     morph_elements = []
     for i in range(N_DOTS):
@@ -151,8 +152,8 @@ def build_morphing_banner(mode='dark'):
         vals_x = f"{x0:.1f}; {x0:.1f}; {x1:.1f}; {x1:.1f}; {x2:.1f}; {x2:.1f}; {x3:.1f}; {x3:.1f}; {x0:.1f}"
         vals_y = f"{y0:.1f}; {y0:.1f}; {y1:.1f}; {y1:.1f}; {y2:.1f}; {y2:.1f}; {y3:.1f}; {y3:.1f}; {y0:.1f}"
         
-        anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="24s" repeatCount="indefinite" />'
-        anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="24s" repeatCount="indefinite" />'
+        anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" calcMode="linear" />'
+        anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" calcMode="linear" />'
         
         morph_elements.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="4.5" height="4.5" rx="1" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
         
@@ -227,7 +228,7 @@ def build_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Complete Morphing Particle Layer (Uniform Color & Smooth Pauses) -->
+  <!-- Complete Morphing Particle Layer (calcMode=linear & Strict 16s Timing) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
