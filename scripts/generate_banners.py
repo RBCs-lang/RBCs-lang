@@ -17,12 +17,14 @@ def create_crisp_icon_pts(target_n=967):
     draw.rectangle([35, 135, 130, 185], fill=0)
     draw.ellipse([165, 185, 185, 205], fill=0)
     
-    # 2. JS Logo (Clean solid square with hollow JS text cutouts)
+    # 2. JS Logo (Official JS Badge: Solid rounded square with bottom-right JS letter cutouts)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
     draw.rounded_rectangle([20, 20, 240, 240], radius=25, fill=255)
-    draw.line([(135, 115), (135, 200), (95, 200), (95, 165)], fill=0, width=22)
-    draw.line([(210, 115), (160, 115), (160, 150), (210, 150), (210, 200), (160, 200)], fill=0, width=22)
+    # Hollow J cutout (bottom-center)
+    draw.line([(135, 110), (135, 205), (95, 205), (95, 170)], fill=0, width=24)
+    # Hollow S cutout (bottom-right)
+    draw.line([(215, 110), (160, 110), (160, 150), (215, 150), (215, 205), (160, 205)], fill=0, width=24)
     
     # 3. GitHub Octocat Logo (Clean solid silhouette with hollow face/body cutouts)
     gh_img = Image.new('L', (size, size), 0)
