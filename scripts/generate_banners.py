@@ -4,36 +4,40 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
-def create_logo_shapes(target_n=450):
-    size = 160
+def create_logo_shapes(target_n=750):
+    size = 180
     
-    # 1. Python Logo (Two interlocking snake shapes)
+    # 1. Python Logo (Detailed double snake outlines & heads)
     py_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(py_img)
-    draw.rounded_rectangle([25, 15, 135, 75], radius=25, outline=255, width=16)
-    draw.rounded_rectangle([25, 85, 135, 145], radius=25, outline=255, width=16)
-    draw.ellipse([45, 30, 65, 50], fill=255)
-    draw.ellipse([95, 110, 115, 130], fill=255)
+    # Upper Snake
+    draw.rounded_rectangle([30, 20, 150, 85], radius=30, outline=255, width=18)
+    draw.ellipse([50, 36, 70, 56], fill=255) # Eye 1
+    # Lower Snake
+    draw.rounded_rectangle([30, 95, 150, 160], radius=30, outline=255, width=18)
+    draw.ellipse([110, 124, 130, 144], fill=255) # Eye 2
     py_pts = np.argwhere(np.array(py_img) > 128)
     
-    # 2. JS Logo (Square boundary with JS text)
+    # 2. JS Logo (Square border with crisp JS typography)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
-    draw.rectangle([15, 15, 145, 145], outline=255, width=12)
-    draw.line([(75, 65), (75, 115), (50, 115), (50, 95)], fill=255, width=12)
-    draw.line([(125, 70), (95, 70), (95, 90), (125, 90), (125, 115), (95, 115)], fill=255, width=12)
+    draw.rectangle([15, 15, 165, 165], outline=255, width=14)
+    # J
+    draw.line([(85, 75), (85, 135), (55, 135), (55, 110)], fill=255, width=14)
+    # S
+    draw.line([(140, 80), (105, 80), (105, 103), (140, 103), (140, 135), (105, 135)], fill=255, width=14)
     js_pts = np.argwhere(np.array(js_img) > 128)
     
-    # 3. Git Logo (Diamond with branch lines)
+    # 3. Git Logo (Crisp rotated diamond with branch topology)
     git_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(git_img)
-    draw.polygon([(80, 10), (150, 80), (80, 150), (10, 80)], outline=255, width=12)
-    draw.line([(50, 80), (110, 80)], fill=255, width=10)
-    draw.line([(80, 50), (80, 110)], fill=255, width=10)
-    draw.line([(80, 80), (115, 115)], fill=255, width=10)
-    draw.ellipse([42, 70, 62, 90], fill=255)
-    draw.ellipse([98, 70, 118, 90], fill=255)
-    draw.ellipse([105, 105, 125, 125], fill=255)
+    draw.polygon([(90, 10), (170, 90), (90, 170), (10, 90)], outline=255, width=14)
+    draw.line([(55, 90), (125, 90)], fill=255, width=12)
+    draw.line([(90, 55), (90, 125)], fill=255, width=12)
+    draw.line([(90, 90), (130, 130)], fill=255, width=12)
+    draw.ellipse([45, 78, 69, 102], fill=255)
+    draw.ellipse([115, 78, 139, 102], fill=255)
+    draw.ellipse([118, 118, 142, 142], fill=255)
     git_pts = np.argwhere(np.array(git_img) > 128)
     
     def sample_exact(pts, n):
@@ -48,7 +52,7 @@ def build_morphing_banner(mode='dark'):
     
     w, h = img.size
     img = img.crop((int(w * 0.05), int(h * 0.05), int(w * 0.95), int(h * 0.95)))
-    img = img.resize((50, 56), Image.Resampling.LANCZOS)
+    img = img.resize((70, 80), Image.Resampling.LANCZOS)
     
     enhancer = ImageEnhance.Contrast(img)
     img = enhancer.enhance(1.3)
@@ -85,8 +89,8 @@ def build_morphing_banner(mode='dark'):
                     err[y + 1, x] += error * 5 / 16.0
                     if x - 1 >= 0: err[y + 1, x - 1] += error * 1 / 16.0
 
-    ox, oy = 75, 175
-    dw, dh = 5, 5
+    ox, oy = 50, 150
+    dw, dh = 4, 4
     
     portrait_pts = []
     for y in range(h_g):
@@ -96,19 +100,20 @@ def build_morphing_banner(mode='dark'):
                 py = oy + y * dh
                 portrait_pts.append((px, py))
                 
-    N_DOTS = 280
+    # High-density particle resolution (750 dots)
+    N_DOTS = 750
     np.random.seed(42)
     p_indices = np.random.choice(len(portrait_pts), N_DOTS, replace=(len(portrait_pts) < N_DOTS))
     P0 = np.array([portrait_pts[i] for i in p_indices])
     
-    logo_ox, logo_oy = 140, 240
+    logo_ox, logo_oy = 130, 230
     py_raw, js_raw, git_raw = create_logo_shapes(N_DOTS)
     
     P1 = np.column_stack([logo_ox + py_raw[:, 1], logo_oy + py_raw[:, 0]])  # Python
     P2 = np.column_stack([logo_ox + js_raw[:, 1], logo_oy + js_raw[:, 0]])  # JS
     P3 = np.column_stack([logo_ox + git_raw[:, 1], logo_oy + git_raw[:, 0]]) # Git
     
-    # Optimal Transport Matching using Hungarian algorithm (scipy linear_sum_assignment)
+    # Optimal Transport Matching using Hungarian algorithm
     cost_01 = np.linalg.norm(P0[:, None, :] - P1[None, :, :], axis=2)
     _, match_01 = linear_sum_assignment(cost_01)
     P1_matched = P1[match_01]
@@ -129,33 +134,24 @@ def build_morphing_banner(mode='dark'):
     text_muted = "#94A3B8" if mode == 'dark' else "#64748B"
     text_main = "#F8FAFC" if mode == 'dark' else "#0F172A"
     
-    # Total duration: 16 Seconds
-    # 0s - 2.5s (Hold Face Portrait P0 for 2.5s)
-    # 2.5s - 4.0s (Morph P0 -> Python P1 over 1.5s)
-    # 4.0s - 6.5s (Hold Python P1 for 2.5s)
-    # 6.5s - 8.0s (Morph Python P1 -> JS P2 over 1.5s)
-    # 8.0s - 10.5s (Hold JS P2 for 2.5s)
-    # 10.5s - 12.0s (Morph JS P2 -> Git P3 over 1.5s)
-    # 12.0s - 14.5s (Hold Git P3 for 2.5s)
-    # 14.5s - 16.0s (Morph Git P3 -> Return to Face P0 over 1.5s)
-    
-    # Standard 10-point loop with exact 4-decimal fractions summing to 1.0000
+    # Total duration: 16 Seconds (2.5s hold, 1.5s morph transition)
     key_times = "0; 0.1563; 0.25; 0.4063; 0.50; 0.6563; 0.75; 0.9063; 1"
     
+    # Group morphing elements by rounded integer position trajectories to produce clean, compact path data
     morph_elements = []
     for i in range(N_DOTS):
-        x0, y0 = P0[i]
-        x1, y1 = P1_matched[i]
-        x2, y2 = P2_matched[i]
-        x3, y3 = P3_matched[i]
+        x0, y0 = int(P0[i, 0]), int(P0[i, 1])
+        x1, y1 = int(P1_matched[i, 0]), int(P1_matched[i, 1])
+        x2, y2 = int(P2_matched[i, 0]), int(P2_matched[i, 1])
+        x3, y3 = int(P3_matched[i, 0]), int(P3_matched[i, 1])
         
-        vals_x = f"{x0:.1f}; {x0:.1f}; {x1:.1f}; {x1:.1f}; {x2:.1f}; {x2:.1f}; {x3:.1f}; {x3:.1f}; {x0:.1f}"
-        vals_y = f"{y0:.1f}; {y0:.1f}; {y1:.1f}; {y1:.1f}; {y2:.1f}; {y2:.1f}; {y3:.1f}; {y3:.1f}; {y0:.1f}"
+        vals_x = f"{x0};{x0};{x1};{x1};{x2};{x2};{x3};{x3};{x0}"
+        vals_y = f"{y0};{y0};{y1};{y1};{y2};{y2};{y3};{y3};{y0}"
         
         anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" calcMode="linear" />'
         anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" calcMode="linear" />'
         
-        morph_elements.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="4.5" height="4.5" rx="1" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
+        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="3.2" height="3.2" rx="0.8" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
         
     morph_html = "\n    ".join(morph_elements)
 
@@ -228,7 +224,7 @@ def build_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Complete Morphing Particle Layer (calcMode=linear & Strict 16s Timing) -->
+  <!-- High Density Particle Layer (750 Particles) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
