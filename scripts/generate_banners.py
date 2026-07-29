@@ -85,7 +85,6 @@ def build_morphing_banner(mode='dark'):
                     err[y + 1, x] += error * 5 / 16.0
                     if x - 1 >= 0: err[y + 1, x - 1] += error * 1 / 16.0
 
-    # Extract portrait dot coordinates
     ox, oy = 75, 175
     dw, dh = 5, 5
     
@@ -100,9 +99,8 @@ def build_morphing_banner(mode='dark'):
     N_DOTS = 280
     np.random.seed(42)
     p_indices = np.random.choice(len(portrait_pts), N_DOTS, replace=(len(portrait_pts) < N_DOTS))
-    P0 = np.array([portrait_pts[i] for i in p_indices]) # (N_DOTS, 2) -> (x, y)
+    P0 = np.array([portrait_pts[i] for i in p_indices])
     
-    # Generate Logo Point Sets (centered in VISUAL.MAP: cx=220, cy=320)
     logo_ox, logo_oy = 140, 240
     py_raw, js_raw, git_raw = create_logo_shapes(N_DOTS)
     
@@ -111,22 +109,18 @@ def build_morphing_banner(mode='dark'):
     P3 = np.column_stack([logo_ox + git_raw[:, 1], logo_oy + git_raw[:, 0]]) # Git
     
     # Optimal Transport Matching using Hungarian algorithm (scipy linear_sum_assignment)
-    # Match P0 -> P1
     cost_01 = np.linalg.norm(P0[:, None, :] - P1[None, :, :], axis=2)
     _, match_01 = linear_sum_assignment(cost_01)
     P1_matched = P1[match_01]
     
-    # Match P1 -> P2
     cost_12 = np.linalg.norm(P1_matched[:, None, :] - P2[None, :, :], axis=2)
     _, match_12 = linear_sum_assignment(cost_12)
     P2_matched = P2[match_12]
     
-    # Match P2 -> P3
     cost_23 = np.linalg.norm(P2_matched[:, None, :] - P3[None, :, :], axis=2)
     _, match_23 = linear_sum_assignment(cost_23)
     P3_matched = P3[match_23]
     
-    # Colors
     portrait_color = "#A78BFA" if mode == 'dark' else "#7C3AED"
     chrome_color = "#22D3EE" if mode == 'dark' else "#0891B2"
     accent_color = "#10B981"
@@ -135,19 +129,17 @@ def build_morphing_banner(mode='dark'):
     text_muted = "#94A3B8" if mode == 'dark' else "#64748B"
     text_main = "#F8FAFC" if mode == 'dark' else "#0F172A"
     
-    # Build complete SMIL morphing elements for all 450 dots
-    # Loop profile: Total 16s
-    # 0s - 3s (Hold Portrait P0)
-    # 3s - 4.3s (Morph P0 -> Python P1)
-    # 4.3s - 6.3s (Hold Python P1)
-    # 6.3s - 7.6s (Morph Python P1 -> JS P2)
-    # 7.6s - 9.6s (Hold JS P2)
-    # 9.6s - 10.9s (Morph JS P2 -> Git P3)
-    # 10.9s - 12.9s (Hold Git P3)
-    # 12.9s - 14.2s (Morph Git P3 -> Return to Portrait P0)
-    # 14.2s - 16s (Hold Portrait P0)
+    # Total duration: 24 Seconds
+    # 0s - 4s (Hold Face Portrait P0 for 4.0s)
+    # 4s - 6s (Smooth particle transition P0 -> Python P1 over 2.0s)
+    # 6s - 10s (Hold Python P1 for 4.0s)
+    # 10s - 12s (Smooth particle transition Python P1 -> JS P2 over 2.0s)
+    # 12s - 16s (Hold JS P2 for 4.0s)
+    # 16s - 18s (Smooth particle transition JS P2 -> Git P3 over 2.0s)
+    # 18s - 22s (Hold Git P3 for 4.0s)
+    # 22s - 24s (Smooth particle transition Git P3 -> Return to Face P0 over 2.0s)
     
-    key_times = "0; 0.1875; 0.26875; 0.39375; 0.475; 0.60; 0.68125; 0.80625; 0.8875; 1"
+    key_times = "0; 0.1667; 0.25; 0.4167; 0.50; 0.6667; 0.75; 0.9167; 1"
     
     morph_elements = []
     for i in range(N_DOTS):
@@ -156,15 +148,13 @@ def build_morphing_banner(mode='dark'):
         x2, y2 = P2_matched[i]
         x3, y3 = P3_matched[i]
         
-        vals_x = f"{x0:.1f}; {x0:.1f}; {x1:.1f}; {x1:.1f}; {x2:.1f}; {x2:.1f}; {x3:.1f}; {x3:.1f}; {x0:.1f}; {x0:.1f}"
-        vals_y = f"{y0:.1f}; {y0:.1f}; {y1:.1f}; {y1:.1f}; {y2:.1f}; {y2:.1f}; {y3:.1f}; {y3:.1f}; {y0:.1f}; {y0:.1f}"
-        vals_color = f"{portrait_color}; {portrait_color}; {chrome_color}; {chrome_color}; {accent_color}; {accent_color}; #F59E0B; #F59E0B; {portrait_color}; {portrait_color}"
+        vals_x = f"{x0:.1f}; {x0:.1f}; {x1:.1f}; {x1:.1f}; {x2:.1f}; {x2:.1f}; {x3:.1f}; {x3:.1f}; {x0:.1f}"
+        vals_y = f"{y0:.1f}; {y0:.1f}; {y1:.1f}; {y1:.1f}; {y2:.1f}; {y2:.1f}; {y3:.1f}; {y3:.1f}; {y0:.1f}"
         
-        anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" />'
-        anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" />'
-        anim_c = f'<animate attributeName="fill" values="{vals_color}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite" />'
+        anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="24s" repeatCount="indefinite" />'
+        anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="24s" repeatCount="indefinite" />'
         
-        morph_elements.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="4" height="4" rx="1" fill="{portrait_color}">{anim_x}{anim_y}{anim_c}</rect>')
+        morph_elements.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="4.5" height="4.5" rx="1" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
         
     morph_html = "\n    ".join(morph_elements)
 
@@ -237,7 +227,7 @@ def build_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Complete Morphing Particle Layer: Portrait -> Python -> JS -> Git -> Return -->
+  <!-- Complete Morphing Particle Layer (Uniform Color & Smooth Pauses) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
