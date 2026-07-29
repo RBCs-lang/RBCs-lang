@@ -26,7 +26,7 @@
   <p align="center">
     <img src="https://my-github-stats-six.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true&count_private=true&include_all_commits=true" alt="GitHub Stats" width="48%" />
     &nbsp;
-    <img src="https://my-github-stats-six.vercel.app/api/top-langs?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B" alt="Top Languages" width="48%" />
+    <img src="https://my-github-stats-six.vercel.app/api/top-langs?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B&count_private=true" alt="Top Languages" width="48%" />
   </p>
 
   <br/><br/>
