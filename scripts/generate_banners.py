@@ -4,38 +4,32 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
-def create_clean_solid_logo_pts(target_n=600):
+def create_crisp_icon_pts(target_n=967):
     size = 260
     
     # 1. Python Logo (Clean solid dual snakes with hollow eye cutouts)
     py_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(py_img)
-    # Upper Snake solid
     draw.rounded_rectangle([35, 25, 225, 125], radius=35, fill=255)
-    draw.rectangle([130, 75, 225, 125], fill=0) # Hollow notch
-    draw.ellipse([75, 55, 95, 75], fill=0) # Hollow Eye 1
-    # Lower Snake solid
+    draw.rectangle([130, 75, 225, 125], fill=0)
+    draw.ellipse([75, 55, 95, 75], fill=0)
     draw.rounded_rectangle([35, 135, 225, 235], radius=35, fill=255)
-    draw.rectangle([35, 135, 130, 185], fill=0) # Hollow notch
-    draw.ellipse([165, 185, 185, 205], fill=0) # Hollow Eye 2
+    draw.rectangle([35, 135, 130, 185], fill=0)
+    draw.ellipse([165, 185, 185, 205], fill=0)
     
     # 2. JS Logo (Clean solid square with hollow JS text cutouts)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
     draw.rounded_rectangle([20, 20, 240, 240], radius=25, fill=255)
-    # Hollow J cutout
     draw.line([(135, 115), (135, 200), (95, 200), (95, 165)], fill=0, width=22)
-    # Hollow S cutout
     draw.line([(210, 115), (160, 115), (160, 150), (210, 150), (210, 200), (160, 200)], fill=0, width=22)
     
     # 3. GitHub Octocat Logo (Clean solid silhouette with hollow face/body cutouts)
     gh_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(gh_img)
-    # Head & Ears solid
     draw.ellipse([30, 45, 230, 225], fill=255)
     draw.polygon([(40, 75), (70, 25), (105, 60)], fill=255)
     draw.polygon([(220, 75), (190, 25), (155, 60)], fill=255)
-    # Hollow face & body cutouts
     draw.ellipse([80, 140, 180, 220], fill=0)
     
     py_pts = np.argwhere(np.array(py_img) > 128)
@@ -48,24 +42,23 @@ def create_clean_solid_logo_pts(target_n=600):
         
     return sample_exact(py_pts, target_n), sample_exact(js_pts, target_n), sample_exact(gh_pts, target_n)
 
-def build_solid_morphing_banner(mode='dark'):
+def build_full_dither_banner(mode='dark'):
     avatar_path = '/Users/novice/Desktop/Github/RBCs-lang/assets/avatar.png'
     img = Image.open(avatar_path).convert('RGB')
     
     w, h = img.size
     img = img.crop((int(w * 0.05), int(h * 0.05), int(w * 0.95), int(h * 0.95)))
-    img = img.resize((70, 80), Image.Resampling.LANCZOS)
+    img = img.resize((60, 68), Image.Resampling.LANCZOS)
     
     enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(1.35)
+    img = enhancer.enhance(1.3)
     img = ImageOps.autocontrast(img, cutoff=1)
-    img = img.filter(ImageFilter.UnsharpMask(radius=3, percent=150))
+    img = img.filter(ImageFilter.UnsharpMask(radius=3, percent=140))
     
     gray = np.array(img.convert('L'), dtype=float)
     h_g, w_g = gray.shape
     
-    mask = (gray < 240) if mode == 'dark' else np.ones_like(gray, dtype=bool)
-        
+    mask = (gray < 240)
     dithered = np.zeros((h_g, w_g), dtype=int)
     err = gray.copy()
     
@@ -91,24 +84,23 @@ def build_solid_morphing_banner(mode='dark'):
                     err[y + 1, x] += error * 5 / 16.0
                     if x - 1 >= 0: err[y + 1, x - 1] += error * 1 / 16.0
 
-    ox, oy = 50, 150
-    dw, dh = 4, 4
+    ox, oy = 60, 160
+    dw, dh = 5, 5
     
     portrait_pts = []
     for y in range(h_g):
         for x in range(w_g):
-            if (dithered[y, x] == 255 and mask[y, x]) if mode == 'dark' else (dithered[y, x] == 0):
+            if dithered[y, x] == 255 and mask[y, x]:
                 px = ox + x * dw
                 py = oy + y * dh
                 portrait_pts.append((px, py))
                 
-    N_DOTS = 600
-    np.random.seed(42)
-    p_indices = np.random.choice(len(portrait_pts), N_DOTS, replace=(len(portrait_pts) < N_DOTS))
-    P0 = np.array([portrait_pts[i] for i in p_indices])
+    # 100% Full Dither Portrait (All 967 points used with zero downsampling)
+    P0 = np.array(portrait_pts)
+    N_DOTS = len(P0)
     
     logo_ox, logo_oy = 90, 170
-    py_raw, js_raw, gh_raw = create_clean_solid_logo_pts(N_DOTS)
+    py_raw, js_raw, gh_raw = create_crisp_icon_pts(N_DOTS)
     
     P1 = np.column_stack([logo_ox + py_raw[:, 1], logo_oy + py_raw[:, 0]])  # Python
     P2 = np.column_stack([logo_ox + js_raw[:, 1], logo_oy + js_raw[:, 0]])  # JS
@@ -127,7 +119,6 @@ def build_solid_morphing_banner(mode='dark'):
     _, match_23 = linear_sum_assignment(cost_23)
     P3_matched = P3[match_23]
     
-    # Single Solid Accent Color (#A78BFA for dark mode, #7C3AED for light mode)
     particle_color = "#A78BFA" if mode == 'dark' else "#7C3AED"
     chrome_color = "#22D3EE" if mode == 'dark' else "#0891B2"
     accent_color = "#10B981"
@@ -146,13 +137,13 @@ def build_solid_morphing_banner(mode='dark'):
         x2, y2 = int(P2_matched[i, 0]), int(P2_matched[i, 1])
         x3, y3 = int(P3_matched[i, 0]), int(P3_matched[i, 1])
         
-        vals_x = f"{x0};{x0};{x1};{x1};{x2};{x2};{x3};{x3};{x0}"
-        vals_y = f"{y0};{y0};{y1};{y1};{y2};{y2};{y3};{y3};{y0}"
+        vx = f"{x0};{x0};{x1};{x1};{x2};{x2};{x3};{x3};{x0}"
+        vy = f"{y0};{y0};{y1};{y1};{y2};{y2};{y3};{y3};{y0}"
         
-        anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
-        anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
+        anim_x = f'<animate attributeName="x" values="{vx}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
+        anim_y = f'<animate attributeName="y" values="{vy}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
         
-        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="3.5" height="3.5" rx="0.8" fill="{particle_color}">{anim_x}{anim_y}</rect>')
+        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="4" height="4" rx="0.8" fill="{particle_color}">{anim_x}{anim_y}</rect>')
         
     morph_html = "\n    ".join(morph_elements)
 
@@ -225,7 +216,7 @@ def build_solid_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Clean Solid Particle Morphing Layer (600 Uniform Particles) -->
+  <!-- 100% Full Dither Resolution Particle Layer (All 967 Particles) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
@@ -242,5 +233,5 @@ def build_solid_morphing_banner(mode='dark'):
         f.write(svg_content)
     print(f"Generated {output_path}")
 
-build_solid_morphing_banner('dark')
-build_solid_morphing_banner('light')
+build_full_dither_banner('dark')
+build_full_dither_banner('light')
