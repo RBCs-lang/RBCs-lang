@@ -4,36 +4,39 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
-def create_crisp_icon_pts(target_n=600):
+def create_clean_solid_logo_pts(target_n=600):
     size = 260
     
-    # 1. Python Logo (Official dual interlocking snake balance)
+    # 1. Python Logo (Clean solid dual snakes with hollow eye cutouts)
     py_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(py_img)
-    # Upper Snake
-    draw.rounded_rectangle([35, 20, 225, 125], radius=35, fill=255)
-    draw.rectangle([130, 75, 225, 125], fill=0)
-    draw.ellipse([75, 55, 95, 75], fill=0)
-    # Lower Snake
-    draw.rounded_rectangle([35, 135, 225, 240], radius=35, fill=255)
-    draw.rectangle([35, 135, 130, 185], fill=0)
-    draw.ellipse([165, 185, 185, 205], fill=0)
+    # Upper Snake solid
+    draw.rounded_rectangle([35, 25, 225, 125], radius=35, fill=255)
+    draw.rectangle([130, 75, 225, 125], fill=0) # Hollow notch
+    draw.ellipse([75, 55, 95, 75], fill=0) # Hollow Eye 1
+    # Lower Snake solid
+    draw.rounded_rectangle([35, 135, 225, 235], radius=35, fill=255)
+    draw.rectangle([35, 135, 130, 185], fill=0) # Hollow notch
+    draw.ellipse([165, 185, 185, 205], fill=0) # Hollow Eye 2
     
-    # 2. JS Logo (Official square box with bottom-right JS lettering)
+    # 2. JS Logo (Clean solid square with hollow JS text cutouts)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
-    draw.rounded_rectangle([15, 15, 245, 245], radius=25, fill=255)
-    draw.line([(125, 120), (125, 205), (85, 205), (85, 170)], fill=0, width=24)
-    draw.line([(215, 120), (160, 120), (160, 155), (215, 155), (215, 205), (160, 205)], fill=0, width=24)
+    draw.rounded_rectangle([20, 20, 240, 240], radius=25, fill=255)
+    # Hollow J cutout
+    draw.line([(135, 115), (135, 200), (95, 200), (95, 165)], fill=0, width=22)
+    # Hollow S cutout
+    draw.line([(210, 115), (160, 115), (160, 150), (210, 150), (210, 200), (160, 200)], fill=0, width=22)
     
-    # 3. GitHub Octocat Silhouette Logo
+    # 3. GitHub Octocat Logo (Clean solid silhouette with hollow face/body cutouts)
     gh_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(gh_img)
-    draw.ellipse([30, 40, 230, 230], fill=255)
-    draw.polygon([(40, 70), (70, 20), (105, 55)], fill=255)
-    draw.polygon([(220, 70), (190, 20), (155, 55)], fill=255)
-    # Inner body cutouts
-    draw.ellipse([80, 150, 180, 230], fill=0)
+    # Head & Ears solid
+    draw.ellipse([30, 45, 230, 225], fill=255)
+    draw.polygon([(40, 75), (70, 25), (105, 60)], fill=255)
+    draw.polygon([(220, 75), (190, 25), (155, 60)], fill=255)
+    # Hollow face & body cutouts
+    draw.ellipse([80, 140, 180, 220], fill=0)
     
     py_pts = np.argwhere(np.array(py_img) > 128)
     js_pts = np.argwhere(np.array(js_img) > 128)
@@ -45,7 +48,7 @@ def create_crisp_icon_pts(target_n=600):
         
     return sample_exact(py_pts, target_n), sample_exact(js_pts, target_n), sample_exact(gh_pts, target_n)
 
-def build_hd_morphing_banner(mode='dark'):
+def build_solid_morphing_banner(mode='dark'):
     avatar_path = '/Users/novice/Desktop/Github/RBCs-lang/assets/avatar.png'
     img = Image.open(avatar_path).convert('RGB')
     
@@ -105,11 +108,11 @@ def build_hd_morphing_banner(mode='dark'):
     P0 = np.array([portrait_pts[i] for i in p_indices])
     
     logo_ox, logo_oy = 90, 170
-    py_raw, js_raw, gh_raw = create_crisp_icon_pts(N_DOTS)
+    py_raw, js_raw, gh_raw = create_clean_solid_logo_pts(N_DOTS)
     
     P1 = np.column_stack([logo_ox + py_raw[:, 1], logo_oy + py_raw[:, 0]])  # Python
     P2 = np.column_stack([logo_ox + js_raw[:, 1], logo_oy + js_raw[:, 0]])  # JS
-    P3 = np.column_stack([logo_ox + gh_raw[:, 1], logo_oy + gh_raw[:, 0]])  # GitHub Octocat
+    P3 = np.column_stack([logo_ox + gh_raw[:, 1], logo_oy + gh_raw[:, 0]])  # GitHub
     
     # Optimal Transport Matching using Hungarian algorithm
     cost_01 = np.linalg.norm(P0[:, None, :] - P1[None, :, :], axis=2)
@@ -124,7 +127,8 @@ def build_hd_morphing_banner(mode='dark'):
     _, match_23 = linear_sum_assignment(cost_23)
     P3_matched = P3[match_23]
     
-    portrait_color = "#A78BFA" if mode == 'dark' else "#7C3AED"
+    # Single Solid Accent Color (#A78BFA for dark mode, #7C3AED for light mode)
+    particle_color = "#A78BFA" if mode == 'dark' else "#7C3AED"
     chrome_color = "#22D3EE" if mode == 'dark' else "#0891B2"
     accent_color = "#10B981"
     bg_color = "#0A101F" if mode == 'dark' else "#F8FAFC"
@@ -148,7 +152,7 @@ def build_hd_morphing_banner(mode='dark'):
         anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
         anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
         
-        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="3.5" height="3.5" rx="0.8" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
+        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="3.5" height="3.5" rx="0.8" fill="{particle_color}">{anim_x}{anim_y}</rect>')
         
     morph_html = "\n    ".join(morph_elements)
 
@@ -221,7 +225,7 @@ def build_hd_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Refined Official Vector Icon Particles (600 Particles) -->
+  <!-- Clean Solid Particle Morphing Layer (600 Uniform Particles) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
@@ -238,5 +242,5 @@ def build_hd_morphing_banner(mode='dark'):
         f.write(svg_content)
     print(f"Generated {output_path}")
 
-build_hd_morphing_banner('dark')
-build_hd_morphing_banner('light')
+build_solid_morphing_banner('dark')
+build_solid_morphing_banner('light')
