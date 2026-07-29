@@ -41,15 +41,16 @@ fill="white"/>
 # JavaScript logo – official JS badge with correct J and S letterforms
 JS_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
   <rect x="5" y="5" width="250" height="250" fill="white"/>
-  <!-- J: vertical bar with hook -->
-  <rect x="90" y="100" width="22" height="95" fill="black"/>
-  <path d="M68,185 Q68,220 100,220 Q128,220 130,195 L130,185 Q126,205 100,205 Q90,205 90,195 L90,185 Z" fill="black"/>
-  <!-- S: top bar + middle bar + bottom bar + connectors -->
-  <rect x="155" y="100" width="65" height="22" fill="black"/>
-  <rect x="155" y="148" width="65" height="22" fill="black"/>
-  <rect x="155" y="196" width="65" height="24" fill="black"/>
-  <rect x="155" y="100" width="22" height="70" fill="black"/>
-  <rect x="198" y="148" width="22" height="72" fill="black"/>
+  <!-- J: thin vertical bar + bottom-left L hook (all rects, no bezier) -->
+  <rect x="108" y="95"  width="24" height="115" fill="black"/>
+  <rect x="68"  y="188" width="64" height="22"  fill="black"/>
+  <rect x="68"  y="166" width="24" height="44"  fill="black"/>
+  <!-- S: classic block S — two C shapes mirrored (all rects) -->
+  <rect x="158" y="95"  width="68" height="22" fill="black"/>
+  <rect x="158" y="95"  width="24" height="60" fill="black"/>
+  <rect x="158" y="143" width="68" height="22" fill="black"/>
+  <rect x="202" y="143" width="24" height="60" fill="black"/>
+  <rect x="158" y="191" width="68" height="22" fill="black"/>
 </svg>'''
 
 # GitHub mark – official Octocat silhouette (verified correct ✅)
