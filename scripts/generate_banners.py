@@ -4,40 +4,46 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
-def create_hd_logo_shapes(target_n=1000):
-    size = 320
+def create_crisp_icon_pts(target_n=600):
+    size = 260
     
-    # 1. Python Logo (Official 2-snake outline + eyes)
+    # 1. Python Logo (Filled iconic dual snakes)
     py_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(py_img)
-    # Upper snake body & head
-    draw.rounded_rectangle([40, 30, 280, 150], radius=45, outline=255, width=28)
-    draw.ellipse([85, 65, 115, 95], fill=255)
-    # Lower snake body & head
-    draw.rounded_rectangle([40, 170, 280, 290], radius=45, outline=255, width=28)
-    draw.ellipse([205, 225, 235, 255], fill=255)
-    py_pts = np.argwhere(np.array(py_img) > 128)
+    # Upper Snake
+    draw.rounded_rectangle([30, 20, 230, 120], radius=40, fill=255)
+    draw.rectangle([130, 70, 230, 120], fill=0) # Cutout right bottom
+    draw.rounded_rectangle([130, 70, 230, 120], radius=20, fill=255)
+    draw.ellipse([70, 50, 95, 75], fill=0) # Eye 1
+    # Lower Snake
+    draw.rounded_rectangle([30, 140, 230, 240], radius=40, fill=255)
+    draw.rectangle([30, 140, 130, 190], fill=0) # Cutout left top
+    draw.rounded_rectangle([30, 140, 130, 190], radius=20, fill=255)
+    draw.ellipse([165, 185, 190, 210], fill=0) # Eye 2
     
-    # 2. JS Logo (Square border + bold JS typography)
+    # 2. JS Logo (Filled badge with clear JS cutout)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
-    draw.rectangle([25, 25, 295, 295], outline=255, width=24)
-    # J
-    draw.line([(150, 120), (150, 235), (95, 235), (95, 185)], fill=255, width=24)
-    # S
-    draw.line([(245, 130), (185, 130), (185, 175), (245, 175), (245, 235), (185, 235)], fill=255, width=24)
-    js_pts = np.argwhere(np.array(js_img) > 128)
+    draw.rounded_rectangle([20, 20, 240, 240], radius=20, fill=255)
+    # J cutout
+    draw.line([(140, 100), (140, 195), (95, 195), (95, 160)], fill=0, width=22)
+    # S cutout
+    draw.line([(215, 110), (165, 110), (165, 145), (215, 145), (215, 195), (165, 195)], fill=0, width=22)
     
-    # 3. Git Logo (Rotated square diamond + branch topology & nodes)
+    # 3. Git Logo (Filled diamond with branch lines & nodes)
     git_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(git_img)
-    draw.polygon([(160, 20), (300, 160), (160, 300), (20, 160)], outline=255, width=24)
-    draw.line([(95, 160), (225, 160)], fill=255, width=20)
-    draw.line([(160, 95), (160, 225)], fill=255, width=20)
-    draw.line([(160, 160), (235, 235)], fill=255, width=20)
-    draw.ellipse([75, 140, 115, 180], fill=255)
-    draw.ellipse([205, 140, 245, 180], fill=255)
-    draw.ellipse([215, 215, 255, 255], fill=255)
+    draw.polygon([(130, 15), (245, 130), (130, 245), (15, 130)], fill=255)
+    # Internal branch paths cutouts / nodes
+    draw.line([(80, 130), (180, 130)], fill=0, width=16)
+    draw.line([(130, 80), (130, 180)], fill=0, width=16)
+    draw.line([(130, 130), (190, 190)], fill=0, width=16)
+    draw.ellipse([62, 112, 98, 148], fill=255)
+    draw.ellipse([162, 112, 198, 148], fill=255)
+    draw.ellipse([172, 172, 208, 208], fill=255)
+    
+    py_pts = np.argwhere(np.array(py_img) > 128)
+    js_pts = np.argwhere(np.array(js_img) > 128)
     git_pts = np.argwhere(np.array(git_img) > 128)
     
     def sample_exact(pts, n):
@@ -53,7 +59,7 @@ def build_hd_morphing_banner(mode='dark'):
     # Crop head and shoulders
     w, h = img.size
     img = img.crop((int(w * 0.05), int(h * 0.05), int(w * 0.95), int(h * 0.95)))
-    img = img.resize((100, 115), Image.Resampling.LANCZOS)
+    img = img.resize((70, 80), Image.Resampling.LANCZOS)
     
     enhancer = ImageEnhance.Contrast(img)
     img = enhancer.enhance(1.35)
@@ -90,9 +96,8 @@ def build_hd_morphing_banner(mode='dark'):
                     err[y + 1, x] += error * 5 / 16.0
                     if x - 1 >= 0: err[y + 1, x - 1] += error * 1 / 16.0
 
-    # Fill VISUAL.MAP frame (width 320, height 400 -> centered in ox=60, oy=130)
-    ox, oy = 60, 130
-    dw, dh = 3.0, 3.2
+    ox, oy = 50, 150
+    dw, dh = 4, 4
     
     portrait_pts = []
     for y in range(h_g):
@@ -102,17 +107,16 @@ def build_hd_morphing_banner(mode='dark'):
                 py = oy + y * dh
                 portrait_pts.append((px, py))
                 
-    # 600 High-Resolution Particles filling 320x320 logo canvas
     N_DOTS = 600
     np.random.seed(42)
     p_indices = np.random.choice(len(portrait_pts), N_DOTS, replace=(len(portrait_pts) < N_DOTS))
     P0 = np.array([portrait_pts[i] for i in p_indices])
     
-    # 320x320 Logo canvas centered inside VISUAL.MAP (ox=60, oy=140)
-    logo_ox, logo_oy = 60, 140
-    py_raw, js_raw, git_raw = create_hd_logo_shapes(N_DOTS)
+    # 260x260 Logo canvas perfectly centered in VISUAL.MAP (ox=90, oy=170)
+    logo_ox, logo_oy = 90, 170
+    py_raw, js_raw, git_raw = create_crisp_icon_pts(N_DOTS)
     
-    # Map (y, x) -> (X, Y) coordinates
+    # Map (y, x) -> (X, Y)
     P1 = np.column_stack([logo_ox + py_raw[:, 1], logo_oy + py_raw[:, 0]])  # Python
     P2 = np.column_stack([logo_ox + js_raw[:, 1], logo_oy + js_raw[:, 0]])  # JS
     P3 = np.column_stack([logo_ox + git_raw[:, 1], logo_oy + git_raw[:, 0]]) # Git
@@ -154,7 +158,7 @@ def build_hd_morphing_banner(mode='dark'):
         anim_x = f'<animate attributeName="x" values="{vals_x}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
         anim_y = f'<animate attributeName="y" values="{vals_y}" keyTimes="{key_times}" dur="16s" repeatCount="indefinite"/>'
         
-        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="2.4" height="2.4" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
+        morph_elements.append(f'<rect x="{x0}" y="{y0}" width="3.5" height="3.5" rx="0.8" fill="{portrait_color}">{anim_x}{anim_y}</rect>')
         
     morph_html = "\n    ".join(morph_elements)
 
@@ -227,7 +231,7 @@ def build_hd_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- High Definition Particle Layer (1,000 Particles) -->
+  <!-- Filled Iconic Particle Layer (600 Particles) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
