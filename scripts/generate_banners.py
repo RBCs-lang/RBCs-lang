@@ -7,56 +7,48 @@ from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 def create_crisp_icon_pts(target_n=600):
     size = 260
     
-    # 1. Python Logo (Filled iconic dual snakes)
+    # 1. Python Logo (Official dual interlocking snake balance)
     py_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(py_img)
     # Upper Snake
-    draw.rounded_rectangle([30, 20, 230, 120], radius=40, fill=255)
-    draw.rectangle([130, 70, 230, 120], fill=0) # Cutout right bottom
-    draw.rounded_rectangle([130, 70, 230, 120], radius=20, fill=255)
-    draw.ellipse([70, 50, 95, 75], fill=0) # Eye 1
+    draw.rounded_rectangle([35, 20, 225, 125], radius=35, fill=255)
+    draw.rectangle([130, 75, 225, 125], fill=0)
+    draw.ellipse([75, 55, 95, 75], fill=0)
     # Lower Snake
-    draw.rounded_rectangle([30, 140, 230, 240], radius=40, fill=255)
-    draw.rectangle([30, 140, 130, 190], fill=0) # Cutout left top
-    draw.rounded_rectangle([30, 140, 130, 190], radius=20, fill=255)
-    draw.ellipse([165, 185, 190, 210], fill=0) # Eye 2
+    draw.rounded_rectangle([35, 135, 225, 240], radius=35, fill=255)
+    draw.rectangle([35, 135, 130, 185], fill=0)
+    draw.ellipse([165, 185, 185, 205], fill=0)
     
-    # 2. JS Logo (Filled badge with clear JS cutout)
+    # 2. JS Logo (Official square box with bottom-right JS lettering)
     js_img = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(js_img)
-    draw.rounded_rectangle([20, 20, 240, 240], radius=20, fill=255)
-    # J cutout
-    draw.line([(140, 100), (140, 195), (95, 195), (95, 160)], fill=0, width=22)
-    # S cutout
-    draw.line([(215, 110), (165, 110), (165, 145), (215, 145), (215, 195), (165, 195)], fill=0, width=22)
+    draw.rounded_rectangle([15, 15, 245, 245], radius=25, fill=255)
+    draw.line([(125, 120), (125, 205), (85, 205), (85, 170)], fill=0, width=24)
+    draw.line([(215, 120), (160, 120), (160, 155), (215, 155), (215, 205), (160, 205)], fill=0, width=24)
     
-    # 3. Git Logo (Filled diamond with branch lines & nodes)
-    git_img = Image.new('L', (size, size), 0)
-    draw = ImageDraw.Draw(git_img)
-    draw.polygon([(130, 15), (245, 130), (130, 245), (15, 130)], fill=255)
-    # Internal branch paths cutouts / nodes
-    draw.line([(80, 130), (180, 130)], fill=0, width=16)
-    draw.line([(130, 80), (130, 180)], fill=0, width=16)
-    draw.line([(130, 130), (190, 190)], fill=0, width=16)
-    draw.ellipse([62, 112, 98, 148], fill=255)
-    draw.ellipse([162, 112, 198, 148], fill=255)
-    draw.ellipse([172, 172, 208, 208], fill=255)
+    # 3. GitHub Octocat Silhouette Logo
+    gh_img = Image.new('L', (size, size), 0)
+    draw = ImageDraw.Draw(gh_img)
+    draw.ellipse([30, 40, 230, 230], fill=255)
+    draw.polygon([(40, 70), (70, 20), (105, 55)], fill=255)
+    draw.polygon([(220, 70), (190, 20), (155, 55)], fill=255)
+    # Inner body cutouts
+    draw.ellipse([80, 150, 180, 230], fill=0)
     
     py_pts = np.argwhere(np.array(py_img) > 128)
     js_pts = np.argwhere(np.array(js_img) > 128)
-    git_pts = np.argwhere(np.array(git_img) > 128)
+    gh_pts = np.argwhere(np.array(gh_img) > 128)
     
     def sample_exact(pts, n):
         idx = np.random.choice(len(pts), n, replace=(len(pts) < n))
         return pts[idx]
         
-    return sample_exact(py_pts, target_n), sample_exact(js_pts, target_n), sample_exact(git_pts, target_n)
+    return sample_exact(py_pts, target_n), sample_exact(js_pts, target_n), sample_exact(gh_pts, target_n)
 
 def build_hd_morphing_banner(mode='dark'):
     avatar_path = '/Users/novice/Desktop/Github/RBCs-lang/assets/avatar.png'
     img = Image.open(avatar_path).convert('RGB')
     
-    # Crop head and shoulders
     w, h = img.size
     img = img.crop((int(w * 0.05), int(h * 0.05), int(w * 0.95), int(h * 0.95)))
     img = img.resize((70, 80), Image.Resampling.LANCZOS)
@@ -112,14 +104,12 @@ def build_hd_morphing_banner(mode='dark'):
     p_indices = np.random.choice(len(portrait_pts), N_DOTS, replace=(len(portrait_pts) < N_DOTS))
     P0 = np.array([portrait_pts[i] for i in p_indices])
     
-    # 260x260 Logo canvas perfectly centered in VISUAL.MAP (ox=90, oy=170)
     logo_ox, logo_oy = 90, 170
-    py_raw, js_raw, git_raw = create_crisp_icon_pts(N_DOTS)
+    py_raw, js_raw, gh_raw = create_crisp_icon_pts(N_DOTS)
     
-    # Map (y, x) -> (X, Y)
     P1 = np.column_stack([logo_ox + py_raw[:, 1], logo_oy + py_raw[:, 0]])  # Python
     P2 = np.column_stack([logo_ox + js_raw[:, 1], logo_oy + js_raw[:, 0]])  # JS
-    P3 = np.column_stack([logo_ox + git_raw[:, 1], logo_oy + git_raw[:, 0]]) # Git
+    P3 = np.column_stack([logo_ox + gh_raw[:, 1], logo_oy + gh_raw[:, 0]])  # GitHub Octocat
     
     # Optimal Transport Matching using Hungarian algorithm
     cost_01 = np.linalg.norm(P0[:, None, :] - P1[None, :, :], axis=2)
@@ -231,7 +221,7 @@ def build_hd_morphing_banner(mode='dark'):
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <!-- Filled Iconic Particle Layer (600 Particles) -->
+  <!-- Refined Official Vector Icon Particles (600 Particles) -->
   <g shape-rendering="crispEdges">
     {morph_html}
   </g>
