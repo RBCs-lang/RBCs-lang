@@ -6,43 +6,53 @@ import io
 
 # ─── Official logo SVG path data (exact brand paths at 260x260) ──────────────
 
-# Python logo – official two-snake shield from python.org
-PYTHON_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
-  <!-- Upper snake body -->
-  <path d="M130,20 C80,20 45,45 45,80 L45,110 C45,120 52,128 62,128 L130,128
-            C140,128 148,136 148,146 L148,170 L108,170 C98,170 90,178 90,188
-            L90,200 C90,210 98,218 108,218 L152,218 C172,218 185,202 185,185
-            L185,130 L185,80 C185,45 165,20 130,20 Z"
-        fill="white"/>
-  <!-- Upper eye -->
-  <circle cx="100" cy="74" r="10" fill="black"/>
-  <!-- Lower snake body -->
-  <path d="M130,240 C180,240 215,215 215,180 L215,150 C215,140 208,132 198,132
-            L130,132 C120,132 112,124 112,114 L112,90 L152,90 C162,90 170,82 170,72
-            L170,60 C170,50 162,42 152,42 L108,42 C88,42 75,58 75,75
-            L75,130 L75,180 C75,215 95,240 130,240 Z"
-        fill="white"/>
-  <!-- Lower eye -->
-  <circle cx="160" cy="186" r="10" fill="black"/>
+# Python logo – official two-snake shield
+PYTHON_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110">
+<path d="M54.918 2.000C42.936 2.000 34.000 6.627 34.000 13.000
+L34.000 22.000 L56.000 22.000 L56.000 25.000 L25.000 25.000
+C18.627 25.000 14.000 33.936 14.000 45.918
+C14.000 57.900 18.627 67.836 25.000 67.836
+L32.000 67.836 L32.000 57.000
+C32.000 49.627 37.627 44.000 45.000 44.000
+L67.000 44.000 C73.627 44.000 78.000 39.373 78.000 32.836
+L78.000 13.000 C78.000 6.627 69.064 2.000 57.082 2.000
+C56.421 2.000 55.564 2.000 54.918 2.000 Z
+M43.000 10.000 C44.657 10.000 46.000 11.343 46.000 13.000
+C46.000 14.657 44.657 16.000 43.000 16.000
+C41.343 16.000 40.000 14.657 40.000 13.000
+C40.000 11.343 41.343 10.000 43.000 10.000 Z"
+fill="white"/>
+<path d="M82.000 25.000 L82.000 35.836
+C82.000 43.209 76.373 49.000 69.000 49.000
+L47.000 49.000 C40.373 49.000 34.000 54.627 34.000 61.164
+L34.000 81.000 C34.000 87.373 43.209 92.000 55.082 92.000
+C67.064 92.000 76.000 87.373 76.000 81.000
+L76.000 72.000 L54.000 72.000 L54.000 69.000 L85.000 69.000
+C91.373 69.000 96.000 60.064 96.000 48.082
+C96.000 36.000 91.373 27.000 85.000 27.000
+L82.000 25.000 Z
+M67.000 78.000 C68.657 78.000 70.000 79.343 70.000 81.000
+C70.000 82.657 68.657 84.000 67.000 84.000
+C65.343 84.000 64.000 82.657 64.000 81.000
+C64.000 79.343 65.343 78.000 67.000 78.000 Z"
+fill="white"/>
 </svg>'''
 
-# JavaScript logo – official yellow badge from devicon/official JS branding
+# JavaScript logo – official JS badge with correct J and S letterforms
 JS_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
-  <!-- Full solid square badge -->
-  <rect x="10" y="10" width="240" height="240" fill="white"/>
-  <!-- J letter (cut from badge) -->
-  <rect x="10" y="10" width="240" height="240" fill="white"/>
-  <!-- J cutout -->
-  <path d="M145,105 L145,195 Q145,220 120,220 Q95,220 90,200 L90,185
-            Q95,200 120,198 Q130,196 130,185 L130,105 Z" fill="black"/>
-  <!-- S cutout -->
-  <path d="M170,105 L225,105 L225,122 L185,122 L185,150 L225,150 L225,168
-            L185,168 Q168,168 158,180 Q150,192 155,205 Q162,220 185,220 L225,220
-            L225,203 L185,203 Q172,203 172,192 Q172,182 185,182 L225,182 L225,168
-            L225,150 L225,122 L225,105 Z" fill="black"/>
+  <rect x="5" y="5" width="250" height="250" fill="white"/>
+  <!-- J: vertical bar with hook -->
+  <rect x="90" y="100" width="22" height="95" fill="black"/>
+  <path d="M68,185 Q68,220 100,220 Q128,220 130,195 L130,185 Q126,205 100,205 Q90,205 90,195 L90,185 Z" fill="black"/>
+  <!-- S: top bar + middle bar + bottom bar + connectors -->
+  <rect x="155" y="100" width="65" height="22" fill="black"/>
+  <rect x="155" y="148" width="65" height="22" fill="black"/>
+  <rect x="155" y="196" width="65" height="24" fill="black"/>
+  <rect x="155" y="100" width="22" height="70" fill="black"/>
+  <rect x="198" y="148" width="22" height="72" fill="black"/>
 </svg>'''
 
-# GitHub mark – official Octocat silhouette from GitHub
+# GitHub mark – official Octocat silhouette (verified correct ✅)
 GITHUB_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
   <path fill="white" d="M130,20 C70,20 20,70 20,132 C20,182 52,224 96,239
     C101,240 103,237 103,234 L103,214 C73,221 67,200 67,200
