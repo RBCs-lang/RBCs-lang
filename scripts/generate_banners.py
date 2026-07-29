@@ -1,18 +1,63 @@
 import os
 import math
 import numpy as np
-from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
-def build_banner(mode='dark'):
+def create_logo_masks():
+    # Generate 3 logo point sets (Python, JS, Git) inside a 160x160 box centered in VISUAL.MAP (cx=220, cy=320)
+    size = 160
+    
+    # 1. Python Logo (Two interlocking snake shapes)
+    py_img = Image.new('L', (size, size), 0)
+    draw = ImageDraw.Draw(py_img)
+    # Outer boundaries / python shield / snakes
+    draw.rounded_rectangle([30, 20, 130, 75], radius=20, outline=255, width=18)
+    draw.rounded_rectangle([30, 85, 130, 140], radius=20, outline=255, width=18)
+    draw.ellipse([45, 32, 60, 47], fill=255) # Eye 1
+    draw.ellipse([100, 113, 115, 128], fill=255) # Eye 2
+    py_pts = np.argwhere(np.array(py_img) > 128) # (y, x)
+    
+    # 2. JS Logo (Square boundary with JS text)
+    js_img = Image.new('L', (size, size), 0)
+    draw = ImageDraw.Draw(js_img)
+    draw.rectangle([20, 20, 140, 140], outline=255, width=12)
+    # J
+    draw.line([(70, 70), (70, 115), (50, 115), (50, 100)], fill=255, width=12)
+    # S
+    draw.line([(120, 75), (95, 75), (95, 93), (120, 93), (120, 115), (95, 115)], fill=255, width=12)
+    js_pts = np.argwhere(np.array(js_img) > 128)
+    
+    # 3. Git Logo (Diamond with branch lines)
+    git_img = Image.new('L', (size, size), 0)
+    draw = ImageDraw.Draw(git_img)
+    # Rotated square / diamond outline
+    draw.polygon([(80, 15), (145, 80), (80, 145), (15, 80)], outline=255, width=12)
+    # Branch lines & nodes
+    draw.line([(55, 80), (105, 80)], fill=255, width=10)
+    draw.line([(80, 55), (80, 105)], fill=255, width=10)
+    draw.line([(80, 80), (110, 110)], fill=255, width=10)
+    draw.ellipse([50, 72, 66, 88], fill=255)
+    draw.ellipse([100, 72, 116, 88], fill=255)
+    draw.ellipse([102, 102, 118, 118], fill=255)
+    git_pts = np.argwhere(np.array(git_img) > 128)
+    
+    return py_pts, js_pts, git_pts
+
+def sample_pts(pts, target_n=900):
+    if len(pts) == 0:
+        return np.zeros((target_n, 2))
+    indices = np.random.choice(len(pts), target_n, replace=(len(pts) < target_n))
+    return pts[indices]
+
+def generate_animated_svg(mode='dark'):
     avatar_path = '/Users/novice/Desktop/Github/RBCs-lang/assets/avatar.png'
     img = Image.open(avatar_path).convert('RGB')
     
-    # 1. Crop head and shoulders
+    # 1. Crop & resize head/shoulders
     w, h = img.size
     img = img.crop((int(w * 0.05), int(h * 0.05), int(w * 0.95), int(h * 0.95)))
-    img = img.resize((60, 68), Image.Resampling.LANCZOS)
+    img = img.resize((75, 85), Image.Resampling.LANCZOS)
     
-    # Contrast 1.3x + autocontrast + UnsharpMask
     enhancer = ImageEnhance.Contrast(img)
     img = enhancer.enhance(1.3)
     img = ImageOps.autocontrast(img, cutoff=1)
@@ -21,12 +66,8 @@ def build_banner(mode='dark'):
     gray = np.array(img.convert('L'), dtype=float)
     h_g, w_g = gray.shape
     
-    if mode == 'dark':
-        mask = gray < 240
-    else:
-        mask = np.ones_like(gray, dtype=bool)
+    mask = (gray < 240) if mode == 'dark' else np.ones_like(gray, dtype=bool)
         
-    # Floyd-Steinberg Error Diffusion (Serpentine order)
     dithered = np.zeros((h_g, w_g), dtype=int)
     err = gray.copy()
     
@@ -61,34 +102,87 @@ def build_banner(mode='dark'):
     text_main = "#F8FAFC" if mode == 'dark' else "#0F172A"
     
     ox, oy = 50, 190
-    dw, dh = 5, 5
+    dw, dh = 4, 4
     
-    rect_elements = []
+    # 2. Build Portrait Layer Dots (~1500 dots) with per-dot noise & band grouping for SMIL drift
+    portrait_dots = []
     for y in range(h_g):
-        run_start = None
         for x in range(w_g):
-            if mode == 'dark':
-                draw_dot = (dithered[y, x] == 255) and mask[y, x]
-            else:
-                draw_dot = (dithered[y, x] == 0)
+            if (dithered[y, x] == 255 and mask[y, x]) if mode == 'dark' else (dithered[y, x] == 0):
+                px = ox + x * dw
+                py = oy + y * dh
+                portrait_dots.append((px, py))
                 
-            if draw_dot:
-                if run_start is None:
-                    run_start = x
-            else:
-                if run_start is not None:
-                    px = ox + run_start * dw
-                    py = oy + y * dh
-                    pw = (x - run_start) * dw
-                    rect_elements.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{dh}" />')
-                    run_start = None
-        if run_start is not None:
-            px = ox + run_start * dw
-            py = oy + y * dh
-            pw = (w_g - run_start) * dw
-            rect_elements.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{dh}" />')
+    # Group portrait dots into 94 bands for the morphing drift loop
+    np.random.seed(42)
+    n_dots = len(portrait_dots)
+    bands = 94
+    dot_indices = np.arange(n_dots)
+    np.random.shuffle(dot_indices)
+    band_groups = np.array_split(dot_indices, bands)
+    
+    portrait_paths_html = []
+    for b_idx, group in enumerate(band_groups):
+        if len(group) == 0: continue
+        # Band offset noise
+        dx = int(np.random.normal(0, 18))
+        dy = int(np.random.normal(0, 18))
+        
+        path_data = []
+        for idx in group:
+            px, py = portrait_dots[idx]
+            path_data.append(f"M{px},{py}h{dw}v{dh}h-{dw}z")
             
-    portrait_rects_html = "\n    ".join(rect_elements)
+        d_str = " ".join(path_data)
+        # SMIL loop animation (17.4s total loop)
+        # keyTimes: 0 (portrait hold 3s), 0.23 (fade/drift to logo 1), 0.40 (logo 1 hold), 0.57 (logo 2 hold), 0.74 (logo 3 hold), 1.0 (return)
+        animate_transform = f'''
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="0,0; {dx},{dy}; 0,0; {dx},{dy}; 0,0"
+          keyTimes="0; 0.25; 0.50; 0.75; 1"
+          dur="17.4s"
+          repeatCount="indefinite" />
+        <animate
+          attributeName="opacity"
+          values="1; 0.15; 1; 0.15; 1"
+          keyTimes="0; 0.25; 0.50; 0.75; 1"
+          dur="17.4s"
+          repeatCount="indefinite" />
+        '''
+        portrait_paths_html.append(f'<g><path d="{d_str}" fill="{portrait_color}" shape-rendering="crispEdges" />{animate_transform}</g>')
+        
+    # 3. Travellers Layer: 260 dots morphing between Python, JS, and Git logos
+    py_pts, js_pts, git_pts = create_logo_masks()
+    py_sampled = sample_pts(py_pts, 260)
+    js_sampled = sample_pts(js_pts, 260)
+    git_sampled = sample_pts(git_pts, 260)
+    
+    # Center logos in VISUAL.MAP frame (cx=220, cy=320)
+    # Box is 160x160, so origin is (220 - 80) = 140, (320 - 80) = 240
+    logo_ox, logo_oy = 140, 240
+    
+    traveller_rects = []
+    for i in range(260):
+        # Coordinates for Python, JS, Git
+        py_x = logo_ox + py_sampled[i, 1]
+        py_y = logo_oy + py_sampled[i, 0]
+        
+        js_x = logo_ox + js_sampled[i, 1]
+        js_y = logo_oy + js_sampled[i, 0]
+        
+        git_x = logo_ox + git_sampled[i, 1]
+        git_y = logo_oy + git_sampled[i, 0]
+        
+        # SMIL keyTimes: 0 (hidden), 0.20 (fade in Python), 0.45 (morph to JS), 0.70 (morph to Git), 1.0 (fade out return to portrait)
+        anim_x = f'<animate attributeName="x" values="{py_x:.1f}; {py_x:.1f}; {js_x:.1f}; {git_x:.1f}; {py_x:.1f}" keyTimes="0; 0.25; 0.50; 0.75; 1" dur="17.4s" repeatCount="indefinite"/>'
+        anim_y = f'<animate attributeName="y" values="{py_y:.1f}; {py_y:.1f}; {js_y:.1f}; {git_y:.1f}; {py_y:.1f}" keyTimes="0; 0.25; 0.50; 0.75; 1" dur="17.4s" repeatCount="indefinite"/>'
+        anim_op = f'<animate attributeName="opacity" values="0; 0.9; 0.9; 0.9; 0" keyTimes="0; 0.20; 0.50; 0.75; 1" dur="17.4s" repeatCount="indefinite"/>'
+        
+        traveller_rects.append(f'<rect x="{py_x:.1f}" y="{py_y:.1f}" width="2.5" height="2.5" fill="{chrome_color}">{anim_x}{anim_y}{anim_op}</rect>')
+        
+    travellers_html = "\n    ".join(traveller_rects)
 
     info_rows = [
         ("Subject", "Subh Sharma"),
@@ -155,11 +249,16 @@ def build_banner(mode='dark'):
     <text x="42.5" y="14" text-anchor="middle" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">@RBCs</text>
   </g>
 
+  <!-- Left Frame: VISUAL.MAP -->
   <rect x="40" y="85" width="360" height="480" rx="8" fill="rgba(15, 23, 42, 0.6)" stroke="{chrome_color}" stroke-width="1" opacity="0.8" />
   <text x="55" y="112" fill="{chrome_color}" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700" letter-spacing="1">VISUAL.MAP</text>
   
-  <g fill="{portrait_color}" shape-rendering="crispEdges" transform="translate(0, 0)">
-    {portrait_rects_html}
+  <!-- Layer 1: Portrait Drift Bands -->
+  {"".join(portrait_paths_html)}
+  
+  <!-- Layer 2: Vector Travellers Morphing Between Python, JS, and Git Logos -->
+  <g>
+    {travellers_html}
   </g>
   
   <text x="440" y="112" fill="{accent_color}" font-family="Menlo, Monaco, monospace" font-size="13" font-weight="700" letter-spacing="1">SYSTEM.INFO</text>
@@ -174,5 +273,5 @@ def build_banner(mode='dark'):
         f.write(svg_content)
     print(f"Generated {output_path}")
 
-build_banner('dark')
-build_banner('light')
+generate_animated_svg('dark')
+generate_animated_svg('light')

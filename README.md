@@ -1,7 +1,7 @@
 <div align="center">
 
-  <!-- Phase 1: Responsive Profile Banner -->
-  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.png" alt="Subh Sharma Profile Banner" width="100%" />
+  <!-- Phase 1: Responsive Profile Banner with Vector Logo Morphing Animation -->
+  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/dark.svg" alt="Subh Sharma Profile Banner" width="100%" />
 
   <br/><br/>
 
