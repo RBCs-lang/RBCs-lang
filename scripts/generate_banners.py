@@ -195,7 +195,7 @@ def build_banner(mode='dark'):
         ("Core.Infra",    "Git · GitHub · Vercel · Electron"),
         ("Grid.Mail",     "Available on Request"),
         ("Grid.Portfolio","Coming Soon"),
-        ("Grid.LinkedIn", "linkedin.com/in/RBCs"),
+        ("Grid.LinkedIn", "linkedin.com/in/subh-sharma-86bb88368"),
         ("Grid.GitHub",   "github.com/RBCs"),
     ]
 
