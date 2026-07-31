@@ -29,11 +29,6 @@
     <img src="https://my-github-stats-six.vercel.app/api/top-langs?username=RBCs-lang&layout=compact&theme=dark&bg_color=0A101F&title_color=22D3EE&text_color=94A3B8&border_color=1E293B&count_private=true" alt="Top Languages" width="48%" />
   </p>
 
-  <p align="center">
-  <img src="./tech-orbit.svg?v=2" width="450" alt="My Tech Stack Orbit" />
-  </p>
-
-
   <br/><br/>
 
   <!-- Phase 3: Contribution Snake -->
