@@ -30,7 +30,7 @@
   </p>
 
   <p align="center">
-  <img src="./tech-orbit.svg" width="450" alt="My Tech Stack Orbit" />
+  <img src="./tech-orbit.svg?v=2" width="450" alt="My Tech Stack Orbit" />
   </p>
 
 
