@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%" style="background: transparent;">
+  <defs>
+    <!-- Gradients -->
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    
+    <linearGradient id="innerRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <linearGradient id="outerRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Center Code Icon -->
+    <g id="codeIcon">
+      <circle cx="0" cy="0" r="45" fill="#1e1b4b" stroke="#6366f1" stroke-width="2" />
+      <path d="M-15,-10 L-25,0 L-15,10 M15,-10 L25,0 L15,10 M-5,14 L5,-14" stroke="#a855f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- Tech Logos -->
+    <!-- HTML5 -->
+    <g id="htmlLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#ea580c" stroke-width="1.5"/>
+      <path d="M-10,-12 L10,-12 L8,8 L0,11 L-8,8 Z" fill="#e34f26"/>
+      <path d="M0,-10 L0,9 L6.5,7 L8,-10 Z" fill="#ef652a"/>
+      <path d="M-6,-6 L6,-6 L5.5,-2 L-5.5,-2 L-5,2 L5,2 L4.5,6 L0,7.2 L-4.5,6 L-4.8,3" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- CSS3 -->
+    <g id="cssLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#0284c7" stroke-width="1.5"/>
+      <path d="M-10,-12 L10,-12 L8,8 L0,11 L-8,8 Z" fill="#1572b6"/>
+      <path d="M0,-10 L0,9 L6.5,7 L8,-10 Z" fill="#33a9dc"/>
+      <path d="M-6,-6 L6,-6 L5.5,-2 L-5.5,-2 L-5,2 L5,2 L4.5,6 L0,7.2 L-4.5,6 L-4.8,3" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- JS -->
+    <g id="jsLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#eab308" stroke-width="1.5"/>
+      <rect x="-11" y="-11" width="22" height="22" rx="3" fill="#f7df1e"/>
+      <path d="M-5,5 C-5,8 -2,8 0,8 C2,8 3.5,7 3.5,5 C3.5,2 0,2 0,0 C0,-1.5 1.5,-2 3,-2 C4.5,-2 5,-1 5,0" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M-8,-2 L-8,5 C-8,7.5 -10,7.5 -11,7" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- React -->
+    <g id="reactLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#06b6d4" stroke-width="1.5"/>
+      <ellipse cx="0" cy="0" rx="14" ry="5.5" fill="none" stroke="#61dafb" stroke-width="1.5"/>
+      <ellipse cx="0" cy="0" rx="14" ry="5.5" fill="none" stroke="#61dafb" stroke-width="1.5" transform="rotate(60)"/>
+      <ellipse cx="0" cy="0" rx="14" ry="5.5" fill="none" stroke="#61dafb" stroke-width="1.5" transform="rotate(120)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#61dafb"/>
+    </g>
+
+    <!-- Node.js -->
+    <g id="nodeLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#22c55e" stroke-width="1.5"/>
+      <path d="M0,-11 L10,-5 L10,6 L0,12 L-10,6 L-10,-5 Z" fill="none" stroke="#5fa04e" stroke-width="2"/>
+      <path d="M0,-6 L5,-3 L5,3 L0,6 L-5,3 L-5,-3 Z" fill="#5fa04e"/>
+    </g>
+
+    <!-- Python Logo -->
+    <g id="pythonLogo">
+      <circle cx="0" cy="0" r="22" fill="#18181b" stroke="#3b82f6" stroke-width="1.5"/>
+      <g transform="scale(0.85)">
+        <path d="M-1,-11 C-7,-11 -10,-9 -10,-4 L-10,0 L0,0 L0,1 L-10,1 C-13,1 -14,4 -14,7 C-14,10 -11,13 -6,13 L-3,13 L-3,9 C-3,6 0,4 4,4 L10,4 L10,1 C10,-4 7,-11 -1,-11 Z M-4,-8 C-3,-8 -2,-7 -2,-6 C-2,-5 -3,-4 -4,-4 C-5,-4 -6,-5 -6,-6 C-6,-7 -5,-8 -4,-8 Z" fill="#387eb8"/>
+        <path d="M1,-11 C7,-11 10,-9 10,-4 L10,0 L0,0 L0,-1 L10,-1 C13,-1 14,-4 14,-7 C14,-10 11,-13 6,-13 L3,-13 L3,-9 C3,-6 0,-4 -4,-4 L-10,-4 L-10,-1 C-10,4 -7,11 1,11 Z M4,8 C3,8 2,7 2,6 C2,5 3,4 4,4 C5,4 6,5 6,6 C6,7 5,8 4,8 Z" fill="#ffe052" transform="rotate(180)"/>
+      </g>
+    </g>
+  </defs>
+
+  <style>
+    /* CSS Animations for GitHub SVG rendering */
+    .spin-clockwise {
+      transform-origin: 300px 300px;
+      animation: spin 20s linear infinite;
+    }
+    .spin-counter {
+      transform-origin: 300px 300px;
+      animation: spin-reverse 30s linear infinite;
+    }
+    .counter-rotate-cw {
+      animation: counter-spin 20s linear infinite;
+    }
+    .counter-rotate-ccw {
+      animation: spin 30s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spin-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes counter-spin {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+  </style>
+
+  <!-- Background Ambient Glow -->
+  <circle cx="300" cy="300" r="250" fill="url(#centerGlow)"/>
+
+  <!-- Outer Orbit Track & Group (Radius: 210px) -->
+  <circle cx="300" cy="300" r="210" fill="none" stroke="url(#outerRingGrad)" stroke-width="2" stroke-dasharray="8 6"/>
+  <g class="spin-counter">
+    <!-- Node.js Icon (Top Left) -->
+    <g transform="translate(151, 151)">
+      <g class="counter-rotate-ccw">
+        <use href="#nodeLogo"/>
+      </g>
+    </g>
+    <!-- Python Icon (Top Right) -->
+    <g transform="translate(449, 151)">
+      <g class="counter-rotate-ccw">
+        <use href="#pythonLogo"/>
+      </g>
+    </g>
+    <!-- React Icon (Bottom Center) -->
+    <g transform="translate(300, 510)">
+      <g class="counter-rotate-ccw">
+        <use href="#reactLogo"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Inner Orbit Track & Group (Radius: 130px) -->
+  <circle cx="300" cy="300" r="130" fill="none" stroke="url(#innerRingGrad)" stroke-width="2.5"/>
+  <g class="spin-clockwise">
+    <!-- CSS3 Icon (Top) -->
+    <g transform="translate(300, 170)">
+      <g class="counter-rotate-cw">
+        <use href="#cssLogo"/>
+      </g>
+    </g>
+    <!-- JS Icon (Bottom Right) -->
+    <g transform="translate(412, 365)">
+      <g class="counter-rotate-cw">
+        <use href="#jsLogo"/>
+      </g>
+    </g>
+    <!-- HTML5 Icon (Bottom Left) -->
+    <g transform="translate(188, 365)">
+      <g class="counter-rotate-cw">
+        <use href="#htmlLogo"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Center Core -->
+  <g transform="translate(300, 300)">
+    <use href="#codeIcon"/>
+  </g>
+</svg>
