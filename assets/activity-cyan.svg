@@ -1,0 +1,310 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="areaGradient_cyan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(34, 211, 238, 0.35)"/>
+      <stop offset="100%" stop-color="rgba(34, 211, 238, 0.00)"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .card-bg { fill: #0A101F; stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+    .title { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; }
+    .axis-label { fill: #64748B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+    .graph-point circle { transition: r 0.2s ease, fill 0.2s ease; cursor: pointer; }
+    .graph-point circle:hover { r: 7; fill: #FFFFFF; filter: drop-shadow(0 0 6px #22D3EE); }
+  </style>
+
+  <!-- Background Card -->
+  <rect width="950" height="360" rx="12" class="card-bg"/>
+
+  <!-- Title -->
+  <text x="475.0" y="36" text-anchor="middle" class="title">RBCs-lang's Contribution Graph</text>
+
+  <!-- Y-Axis Label -->
+  <text x="-190.0" y="32" text-anchor="middle" transform="rotate(-90)" class="axis-label">Contributions</text>
+
+  <!-- X-Axis Label -->
+  <text x="502.5" y="348" text-anchor="middle" class="axis-label">Days</text>
+
+  <!-- Grid & Ticks -->
+  
+        <line x1="95" y1="305.0" x2="910" y2="305.0" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="309.0" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">0</text>
+        
+        <line x1="95" y1="266.7" x2="910" y2="266.7" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="270.7" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">10</text>
+        
+        <line x1="95" y1="228.3" x2="910" y2="228.3" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="232.3" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">20</text>
+        
+        <line x1="95" y1="190.0" x2="910" y2="190.0" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="194.0" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">30</text>
+        
+        <line x1="95" y1="151.7" x2="910" y2="151.7" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="155.7" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">40</text>
+        
+        <line x1="95" y1="113.3" x2="910" y2="113.3" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="117.3" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">50</text>
+        
+        <line x1="95" y1="75.0" x2="910" y2="75.0" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="80" y="79.0" text-anchor="end" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">60</text>
+        
+  
+        <text x="95.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">23</text>
+        
+        <text x="122.2" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">24</text>
+        
+        <text x="149.3" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">25</text>
+        
+        <text x="176.5" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">26</text>
+        
+        <text x="203.7" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">27</text>
+        
+        <text x="230.8" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">28</text>
+        
+        <text x="258.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">29</text>
+        
+        <text x="285.2" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">30</text>
+        
+        <text x="312.3" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">31</text>
+        
+        <text x="339.5" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">1</text>
+        
+        <text x="366.7" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">2</text>
+        
+        <text x="393.8" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">3</text>
+        
+        <text x="421.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">4</text>
+        
+        <text x="448.2" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">5</text>
+        
+        <text x="475.3" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">6</text>
+        
+        <text x="502.5" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">7</text>
+        
+        <text x="529.7" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">8</text>
+        
+        <text x="556.8" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">9</text>
+        
+        <text x="584.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">10</text>
+        
+        <text x="611.2" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">11</text>
+        
+        <text x="638.3" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">12</text>
+        
+        <text x="665.5" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">13</text>
+        
+        <text x="692.7" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">14</text>
+        
+        <text x="719.8" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">15</text>
+        
+        <text x="747.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">16</text>
+        
+        <text x="774.2" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">17</text>
+        
+        <text x="801.3" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">18</text>
+        
+        <text x="828.5" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">19</text>
+        
+        <text x="855.7" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">20</text>
+        
+        <text x="882.8" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">21</text>
+        
+        <text x="910.0" y="327" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">22</text>
+        
+
+  <!-- Area Gradient Fill -->
+  <path d="M 95.00,90.33 C 99.53,106.31 113.11,168.92 122.17,186.17 C 131.22,203.42 140.28,175.94 149.33,193.83 C 158.39,211.72 167.44,275.61 176.50,293.50 C 185.56,311.39 194.61,317.14 203.67,301.17 C 212.72,285.19 221.78,210.44 230.83,197.67 C 239.89,184.89 248.94,213.64 258.00,224.50 C 267.06,235.36 276.11,255.17 285.17,262.83 C 294.22,270.50 303.28,266.67 312.33,270.50 C 321.39,274.33 330.44,288.39 339.50,285.83 C 348.56,283.28 357.61,256.44 366.67,255.17 C 375.72,253.89 384.78,269.86 393.83,278.17 C 402.89,286.47 411.94,300.53 421.00,305.00 C 430.06,309.47 439.11,305.00 448.17,305.00 C 457.22,305.00 466.28,305.00 475.33,305.00 C 484.39,305.00 493.44,310.11 502.50,305.00 C 511.56,299.89 520.61,274.97 529.67,274.33 C 538.72,273.69 547.78,299.25 556.83,301.17 C 565.89,303.08 574.94,285.19 584.00,285.83 C 593.06,286.47 602.11,301.81 611.17,305.00 C 620.22,308.19 629.28,310.11 638.33,305.00 C 647.39,299.89 656.44,274.33 665.50,274.33 C 674.56,274.33 683.61,299.89 692.67,305.00 C 701.72,310.11 710.78,305.64 719.83,305.00 C 728.89,304.36 737.94,313.31 747.00,301.17 C 756.06,289.03 765.11,237.28 774.17,232.17 C 783.22,227.06 792.28,259.00 801.33,270.50 C 810.39,282.00 819.44,301.17 828.50,301.17 C 837.56,301.17 846.61,271.78 855.67,270.50 C 864.72,269.22 873.78,294.14 882.83,293.50 C 891.89,292.86 905.47,271.14 910.00,266.67 L 910.00,305.00 L 95.00,305.00 Z" fill="url(#areaGradient_cyan)"/>
+
+  <!-- Line Chart Path -->
+  <path d="M 95.00,90.33 C 99.53,106.31 113.11,168.92 122.17,186.17 C 131.22,203.42 140.28,175.94 149.33,193.83 C 158.39,211.72 167.44,275.61 176.50,293.50 C 185.56,311.39 194.61,317.14 203.67,301.17 C 212.72,285.19 221.78,210.44 230.83,197.67 C 239.89,184.89 248.94,213.64 258.00,224.50 C 267.06,235.36 276.11,255.17 285.17,262.83 C 294.22,270.50 303.28,266.67 312.33,270.50 C 321.39,274.33 330.44,288.39 339.50,285.83 C 348.56,283.28 357.61,256.44 366.67,255.17 C 375.72,253.89 384.78,269.86 393.83,278.17 C 402.89,286.47 411.94,300.53 421.00,305.00 C 430.06,309.47 439.11,305.00 448.17,305.00 C 457.22,305.00 466.28,305.00 475.33,305.00 C 484.39,305.00 493.44,310.11 502.50,305.00 C 511.56,299.89 520.61,274.97 529.67,274.33 C 538.72,273.69 547.78,299.25 556.83,301.17 C 565.89,303.08 574.94,285.19 584.00,285.83 C 593.06,286.47 602.11,301.81 611.17,305.00 C 620.22,308.19 629.28,310.11 638.33,305.00 C 647.39,299.89 656.44,274.33 665.50,274.33 C 674.56,274.33 683.61,299.89 692.67,305.00 C 701.72,310.11 710.78,305.64 719.83,305.00 C 728.89,304.36 737.94,313.31 747.00,301.17 C 756.06,289.03 765.11,237.28 774.17,232.17 C 783.22,227.06 792.28,259.00 801.33,270.50 C 810.39,282.00 819.44,301.17 828.50,301.17 C 837.56,301.17 846.61,271.78 855.67,270.50 C 864.72,269.22 873.78,294.14 882.83,293.50 C 891.89,292.86 905.47,271.14 910.00,266.67" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Point Markers -->
+  
+        <g class="graph-point">
+          <circle cx="95.00" cy="90.33" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-23: 56 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="122.17" cy="186.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-24: 31 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="149.33" cy="193.83" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-25: 29 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="176.50" cy="293.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-26: 3 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="203.67" cy="301.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-27: 1 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="230.83" cy="197.67" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-28: 28 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="258.00" cy="224.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-29: 21 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="285.17" cy="262.83" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-30: 11 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="312.33" cy="270.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-07-31: 9 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="339.50" cy="285.83" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-01: 5 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="366.67" cy="255.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-02: 13 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="393.83" cy="278.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-03: 7 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="421.00" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-04: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="448.17" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-05: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="475.33" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-06: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="502.50" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-07: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="529.67" cy="274.33" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-08: 8 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="556.83" cy="301.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-09: 1 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="584.00" cy="285.83" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-10: 5 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="611.17" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-11: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="638.33" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-12: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="665.50" cy="274.33" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-13: 8 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="692.67" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-14: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="719.83" cy="305.00" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-15: 0 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="747.00" cy="301.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-16: 1 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="774.17" cy="232.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-17: 19 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="801.33" cy="270.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-18: 9 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="828.50" cy="301.17" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-19: 1 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="855.67" cy="270.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-20: 9 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="882.83" cy="293.50" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-21: 3 contributions</title>
+          </circle>
+        </g>
+        
+        <g class="graph-point">
+          <circle cx="910.00" cy="266.67" r="4.5" fill="#10B981" stroke="#0A101F" stroke-width="1.5">
+            <title>2026-08-22: 10 contributions</title>
+          </circle>
+        </g>
+        
+</svg>

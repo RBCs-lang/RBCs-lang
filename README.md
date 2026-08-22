@@ -22,6 +22,11 @@
 
   <br/><br/>
 
+  <!-- Phase 2: 30-Day Contribution Activity Graph -->
+  <img src="https://raw.githubusercontent.com/RBCs-lang/RBCs-lang/main/assets/activity-dark.svg" alt="Contribution Graph" width="100%" />
+
+  <br/><br/>
+
   <!-- Phase 2: Stats & Top Languages Side-by-Side -->
   <p align="center">
     <img src="https://my-github-stats-six.vercel.app/api?username=RBCs-lang&show_icons=true&theme=dark&bg_color=0A101F&title_color=22D3EE&icon_color=10B981&text_color=94A3B8&border_color=1E293B&hide_rank=true&count_private=true&include_all_commits=true" alt="GitHub Stats" width="48%" />
