@@ -5,6 +5,7 @@ import os
 import json
 import math
 from pathlib import Path
+from datetime import datetime
 
 def fetch_contributions(username="RBCs-lang"):
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
@@ -48,7 +49,7 @@ def fetch_contributions(username="RBCs-lang"):
                         days.append((d["date"], d["contributionCount"]))
                 days.sort(key=lambda x: x[0])
                 if days:
-                    return days[-31:]
+                    return days[-32:]
         except Exception as e:
             print(f"GraphQL fetch failed ({e}), falling back to web scraping...")
 
@@ -78,7 +79,7 @@ def fetch_contributions(username="RBCs-lang"):
         data.append((date, cnt))
 
     data.sort(key=lambda x: x[0])
-    return data[-31:]
+    return data[-32:]
 
 
 def get_smooth_path(points):
@@ -101,13 +102,14 @@ def get_smooth_path(points):
         cp2x = p2[0] - (p3[0] - p1[0]) / 6.0
         cp2y = p2[1] - (p3[1] - p1[1]) / 6.0
 
+        # Ensure curve doesn't dip below y baseline or overshoot
         path.append(f"C {cp1x:.2f},{cp1y:.2f} {cp2x:.2f},{cp2y:.2f} {p2[0]:.2f},{p2[1]:.2f}")
     return " ".join(path)
 
 
 def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
     width = 950
-    height = 360
+    height = 370
 
     # Theme definitions
     themes = {
@@ -140,7 +142,7 @@ def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
     graph_left = 95
     graph_right = width - 40
     graph_top = 75
-    graph_bottom = height - 55
+    graph_bottom = height - 60
     plot_width = graph_right - graph_left
     plot_height = graph_bottom - graph_top
 
@@ -149,7 +151,7 @@ def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
     if max_c <= 0:
         max_c = 10
 
-    # Calculate nice Y-axis scale (e.g. 25, 50, 75, 100 or 10, 20, 30...)
+    # Calculate nice Y-axis scale (0, 25, 50, 75, 100 or dynamic)
     raw_step = max_c / 4.0
     magnitude = 10 ** math.floor(math.log10(raw_step)) if raw_step > 0 else 1
     residual = raw_step / magnitude
@@ -197,28 +199,43 @@ def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
         <text x="{graph_left - 15}" y="{y_pos + 4:.1f}" text-anchor="end" fill="{th["text_muted"]}" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500">{int(val)}</text>
         ''')
 
-    # X-axis ticks (day numbers)
+    # X-axis ticks (day numbers with Month indicator on 1st day or month boundary)
     x_ticks_svg = []
     for i, (d_str, cnt) in enumerate(days_data):
         x = points[i][0]
-        day_num = int(d_str.split("-")[2])
-        x_ticks_svg.append(f'''
-        <text x="{x:.1f}" y="{graph_bottom + 22}" text-anchor="middle" fill="{th["text_muted"]}" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="500">{day_num}</text>
-        ''')
+        dt = datetime.strptime(d_str, "%Y-%m-%d")
+        day_num = dt.day
+        month_abbr = dt.strftime("%b")
 
-    # Circle points with tooltips
+        # Emphasize first day, month changes, or last day
+        if i == 0 or day_num == 1:
+            x_ticks_svg.append(f'''
+            <text x="{x:.1f}" y="{graph_bottom + 18}" text-anchor="middle" fill="{th["title"]}" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">{month_abbr}</text>
+            <text x="{x:.1f}" y="{graph_bottom + 32}" text-anchor="middle" fill="{th["text_muted"]}" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">{day_num}</text>
+            ''')
+        else:
+            x_ticks_svg.append(f'''
+            <text x="{x:.1f}" y="{graph_bottom + 25}" text-anchor="middle" fill="{th["text_muted"]}" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">{day_num}</text>
+            ''')
+
+    # Circle points with rich tooltips
     points_svg = []
     for i, (d_str, cnt) in enumerate(days_data):
         x, y = points[i]
+        dt = datetime.strptime(d_str, "%Y-%m-%d")
+        formatted_date = dt.strftime("%B %d, %Y")
         points_svg.append(f'''
         <g class="graph-point">
           <circle cx="{x:.2f}" cy="{y:.2f}" r="4.5" fill="{th["point"]}" stroke="{th["bg"]}" stroke-width="1.5">
-            <title>{d_str}: {cnt} contributions</title>
+            <title>{formatted_date}: {cnt} contribution{"s" if cnt != 1 else ""}</title>
           </circle>
         </g>
         ''')
 
+    start_date = datetime.strptime(days_data[0][0], "%Y-%m-%d").strftime("%b %d, %Y")
+    end_date = datetime.strptime(days_data[-1][0], "%Y-%m-%d").strftime("%b %d, %Y")
     grad_id = f"areaGradient_{theme}"
+
     svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="100%" height="100%">
   <defs>
     <linearGradient id="{grad_id}" x1="0" y1="0" x2="0" y2="1">
@@ -230,6 +247,7 @@ def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
   <style>
     .card-bg {{ fill: {th["bg"]}; stroke: {th["card_border"]}; stroke-width: 1; }}
     .title {{ fill: {th["title"]}; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; }}
+    .subtitle {{ fill: {th["text_muted"]}; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11.5px; font-weight: 500; }}
     .axis-label {{ fill: {th["text_muted"]}; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }}
     .graph-point circle {{ transition: r 0.2s ease, fill 0.2s ease; cursor: pointer; }}
     .graph-point circle:hover {{ r: 7; fill: #FFFFFF; filter: drop-shadow(0 0 6px {th["line"]}); }}
@@ -238,14 +256,15 @@ def generate_activity_svg(days_data, username="RBCs-lang", theme="red"):
   <!-- Background Card -->
   <rect width="{width}" height="{height}" rx="12" class="card-bg"/>
 
-  <!-- Title -->
-  <text x="{width / 2}" y="36" text-anchor="middle" class="title">{username}'s Contribution Graph</text>
+  <!-- Title & Subtitle -->
+  <text x="{width / 2}" y="32" text-anchor="middle" class="title">{username}'s Contribution Graph</text>
+  <text x="{width / 2}" y="50" text-anchor="middle" class="subtitle">{start_date} – {end_date}</text>
 
   <!-- Y-Axis Label -->
   <text x="{- (graph_top + plot_height / 2)}" y="32" text-anchor="middle" transform="rotate(-90)" class="axis-label">Contributions</text>
 
   <!-- X-Axis Label -->
-  <text x="{graph_left + plot_width / 2}" y="{height - 12}" text-anchor="middle" class="axis-label">Days</text>
+  <text x="{graph_left + plot_width / 2}" y="{height - 8}" text-anchor="middle" class="axis-label">Days</text>
 
   <!-- Grid & Ticks -->
   {"".join(grid_svg)}
@@ -271,7 +290,7 @@ if __name__ == "__main__":
 
     print(f"Fetching contribution data for {username}...")
     data = fetch_contributions(username)
-    print(f"Loaded {len(data)} days of contribution activity.")
+    print(f"Loaded {len(data)} days of contribution activity (From {data[0][0]} to {data[-1][0]}).")
 
     # Save Red (matching screenshot)
     red_svg = generate_activity_svg(data, username=username, theme="red")
